@@ -43,7 +43,7 @@ func Resolve(x string, y string) (*Dependency, error) {
 	}
 
 	if isFileOrDir {
-		dependency, err := loadAsFile(y + "/" + x)
+		dependency, err := loadAsFile(y + string(os.PathSeparator) + x)
 		if err != nil {
 			return nil, err
 		}
@@ -51,7 +51,7 @@ func Resolve(x string, y string) (*Dependency, error) {
 			return dependency, nil
 		}
 
-		dependency, err = loadAsDir(y + "/" + x)
+		dependency, err = loadAsDir(y + string(os.PathSeparator) + x)
 		if err != nil {
 			return nil, err
 		}

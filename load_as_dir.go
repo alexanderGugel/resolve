@@ -25,7 +25,7 @@ func loadAsDir(x string) (*Dependency, error) {
 		}
 
 		if manifest.Main != "" {
-			m := x + "/" + manifest.Main
+			m := x + string(os.PathSeparator) + manifest.Main
 			dependency, err := loadAsFile(m)
 
 			if err == nil && dependency != nil {
@@ -38,5 +38,5 @@ func loadAsDir(x string) (*Dependency, error) {
 		return nil, err
 	}
 
-	return loadAsFile(x + "/" + "index")
+	return loadAsFile(x + string(os.PathSeparator) + "index")
 }
