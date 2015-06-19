@@ -12,17 +12,17 @@ func TestResolveExisting(t *testing.T) {
 	}
 
 	testcases := map[string]string{
-		"./test/hello.js": "test/hello.js",
-		"./test/hello": "test/hello.js",
-		"./test/other-file.js": "test/other-file.js",
-		"./test/other-file": "test/other-file.js",
-		"./test/just-dir/hello-1": "test/just-dir/hello-1.js",
-		"./test/just-dir/hello-2": "test/just-dir/hello-2.js",
-		"./test/just-dir/index": "test/just-dir/index.js",
-		"./test/just-dir": "test/just-dir/index.js",
-		"./test/module-with-main": "test/module-with-main/main.js",
+		"./test/hello.js":                      "test/hello.js",
+		"./test/hello":                         "test/hello.js",
+		"./test/other-file.js":                 "test/other-file.js",
+		"./test/other-file":                    "test/other-file.js",
+		"./test/just-dir/hello-1":              "test/just-dir/hello-1.js",
+		"./test/just-dir/hello-2":              "test/just-dir/hello-2.js",
+		"./test/just-dir/index":                "test/just-dir/index.js",
+		"./test/just-dir":                      "test/just-dir/index.js",
+		"./test/module-with-main":              "test/module-with-main/main.js",
 		"./test/module-with-main/package.json": "test/module-with-main/package.json",
-		"./test/module-without-main": "test/module-without-main/index.js",
+		"./test/module-without-main":           "test/module-without-main/index.js",
 	}
 
 	for required, resolved := range testcases {

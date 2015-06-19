@@ -1,15 +1,15 @@
 package resolve
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"regexp"
-	"errors"
 )
 
 var (
 	ErrNotFound = errors.New("not found")
-	Extensions = []string{"", ".js", ".node"}
+	Extensions  = []string{"", ".js", ".node"}
 )
 
 type packageJSON struct {
