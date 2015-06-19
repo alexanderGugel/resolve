@@ -19,20 +19,24 @@ func TestResolveExisting(t *testing.T) {
 	}
 
 	testCases := []testCase{
-		testCase{"./test/hello.js", pwd, "test/hello.js"},
-		testCase{"./test/hello", pwd, "test/hello.js"},
-		testCase{"./test/other_file.js", pwd, "test/other_file.js"},
-		testCase{"./test/other_file", pwd, "test/other_file.js"},
-		testCase{"./test/just_dir/hello_1", pwd, "test/just_dir/hello_1.js"},
-		testCase{"./test/just_dir/hello_2", pwd, "test/just_dir/hello_2.js"},
-		testCase{"./test/just_dir/index", pwd, "test/just_dir/index.js"},
-		testCase{"./test/just_dir", pwd, "test/just_dir/index.js"},
-		testCase{"./test/module_with_main", pwd, "test/module_with_main/main.js"},
-		testCase{"./test/module_with_main/package.json", pwd, "test/module_with_main/package.json"},
-		testCase{"./test/module_without_main", pwd, "test/module_without_main/index.js"},
+		testCase{"./test/hello.js", pwd, pwd + "/test/hello.js"},
+		testCase{"./test/hello", pwd, pwd + "/test/hello.js"},
+		testCase{"./test/other_file.js", pwd, pwd + "/test/other_file.js"},
+		testCase{"./test/other_file", pwd, pwd + "/test/other_file.js"},
+		testCase{"./test/just_dir/hello_1", pwd, pwd + "/test/just_dir/hello_1.js"},
+		testCase{"./test/just_dir/hello_2", pwd, pwd + "/test/just_dir/hello_2.js"},
+		testCase{"./test/just_dir/index", pwd, pwd + "/test/just_dir/index.js"},
+		testCase{"./test/just_dir", pwd, pwd + "/test/just_dir/index.js"},
+		testCase{"./test/module_with_main", pwd, pwd + "/test/module_with_main/main.js"},
+		testCase{"./test/module_with_main/package.json", pwd, pwd + "/test/module_with_main/package.json"},
+		testCase{"./test/module_without_main", pwd, pwd + "/test/module_without_main/index.js"},
 		testCase{"./test/not_here/", pwd, ""},
 		testCase{"./test/somewhere_else", pwd, ""},
 		testCase{"./test/not_found/module.js", pwd, ""},
+		testCase{"./test/module_without_main", pwd, pwd + "/test/module_without_main/index.js"},
+		testCase{"module_1", pwd + "/test/module_0", pwd + "/test/module_0/node_modules/module_1/index.js"},
+		testCase{"module_2", pwd + "/test/module_0", ""},
+		testCase{"module_1", pwd + "/test/module_0/node_modules/module_1/node_modules/module_2", pwd + "/test/module_0/node_modules/module_1/index.js"},
 	}
 
 	for _, testCase := range testCases {
@@ -54,15 +58,13 @@ func TestResolveExisting(t *testing.T) {
 				t.Errorf("got error %q when resolving %q, expected nil", err, testCase.require)
 			}
 
-			expected := pwd + string(os.PathSeparator) + testCase.resolved
-
 			if dependency == nil {
-				t.Errorf("got no dependency when resolving %q; expected %q", testCase.require, expected)
+				t.Errorf("got no dependency when resolving %q; expected %q", testCase.require, testCase.resolved)
 				continue
 			}
 
-			if dependency.Pathname != expected {
-				t.Errorf("got dependency %q when resolving %q; expected %q", dependency.Pathname, testCase.require, expected)
+			if dependency.Pathname != testCase.resolved {
+				t.Errorf("got dependency %q when resolving %q; expected %q", dependency.Pathname, testCase.require, testCase.resolved)
 			}
 
 		}
