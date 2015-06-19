@@ -10,6 +10,7 @@ import (
 var (
 	ErrNotFound = errors.New("not found")
 	Extensions  = []string{"", ".js", ".node"}
+	NodeModules = "node_modules"
 )
 
 type packageJSON struct {
