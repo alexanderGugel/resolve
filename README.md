@@ -17,7 +17,7 @@ helloDependency, _ := Resolve("./hello.js", pwd)
 log.Println(helloDependency.Pathname)
 ```
 
-Works with `node_modules`, directories and files. Correctly resolves main files as specified in `package.json`, e.g. `hello` could have also been resolved to `....../my_modules/node_modules/hello/some-file-as-specified-in-package-json.js`
+Works with `node_modules`, directories and files. Correctly resolves main files as specified in `package.json`, e.g. `hello` could have also been resolved to `/Users/alexandergugel/my_modules/node_modules/hello/some-file-as-specified-in-package-json.js`
 
 Credits
 -------
