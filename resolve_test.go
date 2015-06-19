@@ -12,17 +12,17 @@ func TestResolveExisting(t *testing.T) {
 	}
 
 	testcases := map[string]string{
-		"./test/hello.js":                      "test/hello.js",
-		"./test/hello":                         "test/hello.js",
-		"./test/other-file.js":                 "test/other-file.js",
-		"./test/other-file":                    "test/other-file.js",
-		"./test/just-dir/hello-1":              "test/just-dir/hello-1.js",
-		"./test/just-dir/hello-2":              "test/just-dir/hello-2.js",
-		"./test/just-dir/index":                "test/just-dir/index.js",
-		"./test/just-dir":                      "test/just-dir/index.js",
-		"./test/module-with-main":              "test/module-with-main/main.js",
-		"./test/module-with-main/package.json": "test/module-with-main/package.json",
-		"./test/module-without-main":           "test/module-without-main/index.js",
+		"./test/hello.js":         "test/hello.js",
+		"./test/hello":            "test/hello.js",
+		"./test/other_file.js":    "test/other_file.js",
+		"./test/other_file":       "test/other_file.js",
+		"./test/just_dir/hello_1": "test/just_dir/hello_1.js",
+		"./test/just_dir/hello_2":              "test/just_dir/hello_2.js",
+		"./test/just_dir/index":                "test/just_dir/index.js",
+		"./test/just_dir":                      "test/just_dir/index.js",
+		"./test/module_with_main":              "test/module_with_main/main.js",
+		"./test/module_with_main/package.json": "test/module_with_main/package.json",
+		"./test/module_without_main":           "test/module_without_main/index.js",
 	}
 
 	for required, resolved := range testcases {
@@ -51,7 +51,7 @@ func TestResolveMissing(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	testcases := []string{"./test/not-here/", "./test/somewhere-else", "./test/not-found/module.js"}
+	testcases := []string{"./test/not_here/", "./test/somewhere_else", "./test/not_found/module.js"}
 
 	for _, required := range testcases {
 		dependency, err := Resolve(required, pwd)

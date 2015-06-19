@@ -3,8 +3,8 @@ package resolve
 import (
 	"errors"
 	"os"
-	"regexp"
 	"path/filepath"
+	"regexp"
 )
 
 var (
