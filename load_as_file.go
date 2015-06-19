@@ -2,6 +2,7 @@ package resolve
 
 import (
 	"os"
+	"path/filepath"
 )
 
 func loadAsFile(x string) (*Dependency, error) {
@@ -11,8 +12,8 @@ func loadAsFile(x string) (*Dependency, error) {
 	// 3. If X.node is a file, load X.node as binary addon.  STOP
 
 	for _, extension := range Extensions {
-		filename := x + extension
-		file, err := os.Open(filename)
+		pathname := filepath.Clean(x + extension)
+		file, err := os.Open(pathname)
 		if err != nil {
 			file.Close()
 			if os.IsNotExist(err) {
@@ -33,7 +34,7 @@ func loadAsFile(x string) (*Dependency, error) {
 			continue
 		}
 
-		return &Dependency{file, filename}, nil
+		return &Dependency{file, pathname}, nil
 	}
 
 	return nil, nil

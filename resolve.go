@@ -3,8 +3,8 @@ package resolve
 import (
 	"errors"
 	"os"
-	"path/filepath"
 	"regexp"
+	"path/filepath"
 )
 
 var (
@@ -48,7 +48,6 @@ func Resolve(x string, y string) (*Dependency, error) {
 			return nil, err
 		}
 		if dependency != nil {
-			dependency.Pathname = filepath.Clean(dependency.Pathname)
 			return dependency, nil
 		}
 
@@ -57,7 +56,6 @@ func Resolve(x string, y string) (*Dependency, error) {
 			return nil, err
 		}
 		if dependency != nil {
-			dependency.Pathname = filepath.Clean(dependency.Pathname)
 			return dependency, nil
 		}
 	} else {
@@ -68,7 +66,6 @@ func Resolve(x string, y string) (*Dependency, error) {
 		}
 
 		if dependency != nil {
-			dependency.Pathname = filepath.Clean(dependency.Pathname)
 			return dependency, nil
 		}
 	}
