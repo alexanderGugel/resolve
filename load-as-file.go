@@ -10,7 +10,7 @@ func loadAsFile(x string) (*Dependency, error) {
 	// 2. If X.js is a file, load X.js as JavaScript text.  STOP
 	// 3. If X.node is a file, load X.node as binary addon.  STOP
 
-	for _, extension := range extensions {
+	for _, extension := range Extensions {
 		filename := x + extension
 		file, err := os.Open(filename)
 		if err != nil {

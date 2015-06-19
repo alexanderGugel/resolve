@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestResolve(t *testing.T) {
+func TestResolveExisting(t *testing.T) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
@@ -27,14 +27,40 @@ func TestResolve(t *testing.T) {
 
 	for required, resolved := range testcases {
 		dependency, err := Resolve(required, pwd)
+
 		if err != nil {
-			t.Error("Should not have thrown an error: ", err)
+			t.Errorf("got error %q when resolving %q, expected nil", err, required)
 		}
+
 		expected := pwd + string(os.PathSeparator) + resolved
 
-		if dependency == nil || dependency.Pathname != expected {
-			t.Error("Expected ", expected, " got ", dependency)
+		if dependency == nil {
+			t.Errorf("got no dependency when resolving %q; expected %q", required, expected)
+			continue
+		}
+
+		if dependency.Pathname != expected {
+			t.Errorf("got dependency %q when resolving %q; expected %q", dependency.Pathname, required, expected)
 		}
 	}
+}
 
+func TestResolveMissing(t *testing.T) {
+	pwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	testcases := []string{"./test/not-here/", "./test/somewhere-else", "./test/not-found/module.js"}
+
+	for _, required := range testcases {
+		dependency, err := Resolve(required, pwd)
+
+		if err == nil {
+			t.Errorf("got no error when resolving %q; expected error", required)
+		}
+		if dependency != nil {
+			t.Errorf("got dependency %q when resolving %q; expected nil", dependency.Pathname, required)
+		}
+	}
 }

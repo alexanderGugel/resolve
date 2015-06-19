@@ -4,10 +4,13 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"errors"
 )
 
-var core = []string{"hello", "world"}
-var extensions = []string{"", ".js", ".node"}
+var (
+	ErrNotFound = errors.New("not found")
+	Extensions = []string{"", ".js", ".node"}
+)
 
 type packageJSON struct {
 	Main string `json:"main"`
@@ -70,5 +73,5 @@ func Resolve(x string, y string) (*Dependency, error) {
 		}
 	}
 
-	return nil, nil
+	return nil, ErrNotFound
 }
