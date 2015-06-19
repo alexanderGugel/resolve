@@ -12,11 +12,11 @@ func TestResolveExisting(t *testing.T) {
 	}
 
 	testcases := map[string]string{
-		"./test/hello.js":         "test/hello.js",
-		"./test/hello":            "test/hello.js",
-		"./test/other_file.js":    "test/other_file.js",
-		"./test/other_file":       "test/other_file.js",
-		"./test/just_dir/hello_1": "test/just_dir/hello_1.js",
+		"./test/hello.js":                      "test/hello.js",
+		"./test/hello":                         "test/hello.js",
+		"./test/other_file.js":                 "test/other_file.js",
+		"./test/other_file":                    "test/other_file.js",
+		"./test/just_dir/hello_1":              "test/just_dir/hello_1.js",
 		"./test/just_dir/hello_2":              "test/just_dir/hello_2.js",
 		"./test/just_dir/index":                "test/just_dir/index.js",
 		"./test/just_dir":                      "test/just_dir/index.js",
