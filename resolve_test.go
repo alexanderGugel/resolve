@@ -1,32 +1,44 @@
 package resolve
 
 import (
-	"log"
 	"os"
 	"testing"
 )
 
-func assert(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func TestResolve(t *testing.T) {
 	pwd, err := os.Getwd()
-	assert(err)
 
-	_, err = os.Create(pwd + "/" + "hello.js")
-
-	dependency, err := Resolve("./hello.js", pwd)
 	if err != nil {
-		t.Error("Should not have thrown an error: ", err)
-	}
-	actual := dependency.Pathname
-	expected := pwd + string(os.PathSeparator) + "hello.js"
-	if actual != expected {
-		t.Error("Expected ", expected, " got ", actual)
+		t.Fatal(err)
 	}
 
-	assert(os.Remove(pwd + "/" + "hello.js"))
+	testcases := map[string]string{
+		"./test/hello.js": "test/hello.js",
+		"./test/hello": "test/hello.js",
+		"./test/other-file.js": "test/other-file.js",
+		"./test/other-file": "test/other-file.js",
+		"./test/just-dir/hello-1": "test/just-dir/hello-1.js",
+		"./test/just-dir/hello-2": "test/just-dir/hello-2.js",
+		"./test/just-dir/index": "test/just-dir/index.js",
+
+		// FIXME
+		"./test/just-dir": "test/just-dir/index.js",
+
+		"./test/module-with-main": "test/module-with-main/main.js",
+		"./test/module-with-main/package.json": "test/module-with-main/package.json",
+		"./test/module-without-main": "test/module-without-main/index.js",
+	}
+
+	for required, resolved := range testcases {
+		dependency, err := Resolve(required, pwd)
+		if err != nil {
+			t.Error("Should not have thrown an error: ", err)
+		}
+		actual := dependency.Pathname
+		expected := pwd + string(os.PathSeparator) + resolved
+		if actual != expected {
+			t.Error("Expected ", expected, " got ", actual)
+		}
+	}
+
 }
