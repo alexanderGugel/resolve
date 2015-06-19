@@ -34,10 +34,10 @@ func TestResolve(t *testing.T) {
 		if err != nil {
 			t.Error("Should not have thrown an error: ", err)
 		}
-		actual := dependency.Pathname
 		expected := pwd + string(os.PathSeparator) + resolved
-		if actual != expected {
-			t.Error("Expected ", expected, " got ", actual)
+
+		if dependency == nil || dependency.Pathname != expected {
+			t.Error("Expected ", expected, " got ", dependency)
 		}
 	}
 

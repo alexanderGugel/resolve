@@ -14,22 +14,28 @@ func loadAsDir(x string) (*Dependency, error) {
 	// 2. LOAD_AS_FILE(X/index)
 
 	file, err := os.Open(x + "/package.json")
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, nil
+	defer file.Close()
+
+	if err == nil {
+		manifest := packageJSON{}
+
+		parser := json.NewDecoder(file)
+		if err = parser.Decode(&manifest); err != nil {
+			return nil, err
 		}
-		return nil, err
+
+		if manifest.Main != "" {
+			m := x + "/" + manifest.Main
+			dependency, err := loadAsFile(m)
+
+			if err == nil && dependency != nil {
+				return dependency, err
+			}
+		}
 	}
 
-	manifest := packageJSON{}
-
-	parser := json.NewDecoder(file)
-	if err = parser.Decode(&manifest); err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		return nil, err
-	}
-
-	if manifest.Main != "" {
-		return loadAsFile(x + "/" + manifest.Main)
 	}
 
 	return loadAsFile(x + "/" + "index")

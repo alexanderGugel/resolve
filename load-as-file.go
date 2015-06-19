@@ -13,8 +13,8 @@ func loadAsFile(x string) (*Dependency, error) {
 	for _, extension := range extensions {
 		filename := x + extension
 		file, err := os.Open(filename)
-
 		if err != nil {
+			file.Close()
 			if os.IsNotExist(err) {
 				continue
 			} else {
@@ -24,10 +24,12 @@ func loadAsFile(x string) (*Dependency, error) {
 
 		fi, err := file.Stat()
 		if err != nil {
+			file.Close()
 			return nil, err
 		}
 
 		if fi.Mode().IsDir() {
+			file.Close()
 			continue
 		}
 
