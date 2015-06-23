@@ -5,13 +5,13 @@ import (
 	"testing"
 )
 
-type testCase struct {
-	require  string
-	from     string
-	resolved string
-}
+func TestResolve(t *testing.T) {
+	type testCase struct {
+		require  string
+		from     string
+		resolved string
+	}
 
-func TestResolveExisting(t *testing.T) {
 	pwd, err := os.Getwd()
 
 	if err != nil {
