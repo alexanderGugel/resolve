@@ -34,10 +34,8 @@ func TestResolve(t *testing.T) {
 		testCase{"./test/somewhere_else", pwd, ""},
 		testCase{"./test/not_found/module.js", pwd, ""},
 		testCase{"./test/module_without_main", pwd, pwd + "/test/module_without_main/index.js"},
-		// FIXME
-		// testCase{"module_1", pwd + "/test/module_0", pwd + "/test/module_0/node_modules/module_1/index.js"},
+		testCase{"module_1", pwd + "/test/module_0", pwd + "/test/module_0/node_modules/module_1/index.js"},
 		testCase{"module_2", pwd + "/test/module_0", ""},
-		testCase{"module_1", pwd + "/test/module_0/node_modules/module_1/node_modules/module_2", pwd + "/test/module_0/node_modules/module_1/index.js"},
 	}
 
 	for _, testCase := range testCases {
